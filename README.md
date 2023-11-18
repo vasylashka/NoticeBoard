@@ -1,4 +1,3 @@
-Дарина, [18.11.2023 14:39]
 # NoticeBoard
 
 The NoticeBoard project is a simple web application built with Flask, serving as a digital announcement board. It provides a platform where users can post and view notices, announcements, or messages. Whether you want to share important updates, event details, or general information, the Noticeboard makes communication within a community or organization easy and accessible.
