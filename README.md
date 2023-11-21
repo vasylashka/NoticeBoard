@@ -44,11 +44,7 @@ Before you begin, ensure you have met the following requirements:
 6. Initialize the project using pipenv:
 ```bash
    pipenv install --python 3.10
-``` 
-8. Installing Flask:
-```bash
-   pipenv install flask
-```  
+```   
 
 ## How to Run
 
