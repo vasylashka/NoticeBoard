@@ -5,6 +5,8 @@ name = "pypi"
 
 [packages]
 flask = "3.0.0"
+flask-mongoengine = "1.0.0"
+flask-swagger-ui = "*"
 
 [dev-packages]
 
