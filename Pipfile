@@ -4,9 +4,10 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-flask = "3.0.0"
-flask-mongoengine = "1.0.0"
+flask = "==2.0.1"
+flask-mongoengine = "==0.9.5"
 flask-swagger-ui = "*"
+werkzeug = "==2.0.1"
 
 [dev-packages]
 

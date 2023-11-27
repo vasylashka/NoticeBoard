@@ -1,13 +1,11 @@
 version: '3'
+
 services:
-  web:
-    build: .
-    command: python app.py
+  mongodb:
+    image: mongo:latest
+    container_name: my-mongodb-container
     ports:
-      - "5000:5000"
-    depends_on:
-      - mongo
-  mongo:
-    image: mongo
-    ports:
-      - '27017:27017'
+      - "27017:27017"
+    volumes:
+      - ./data:/data/db
+
