@@ -4,10 +4,10 @@
   "info": {
     "title": "User and Note API",
     "description": "API for managing users and notes",
-    "version": "1.0.0"
+    "version": "2.0.0"
   },
   "paths": {
-    "/api/v1/create/user": {
+    "/api/v1/user/create": {
       "post": {
         "summary": "Create a new user",
         "requestBody": {
@@ -39,7 +39,7 @@
         }
       }
     },
-    "/api/v1/get/users": {
+    "/api/v1/user/get/all": {
       "get": {
         "summary": "Get all users",
         "responses": {
@@ -59,7 +59,7 @@
         }
       }
     },
-    "/api/v1/get/user/{user_id}": {
+    "/api/v1/user/get/{user_id}": {
       "get": {
         "summary": "Get user by ID",
         "parameters": [
@@ -96,7 +96,7 @@
         }
       }
     },
-    "/api/v1/update/user/{user_id}": {
+    "/api/v1/user/update/{user_id}": {
       "put": {
         "summary": "Update user by ID",
         "parameters": [
@@ -141,7 +141,7 @@
         }
       }
     },
-    "/api/v1/delete/user/{user_id}": {
+    "/api/v1/user/delete/{user_id}": {
       "delete": {
         "summary": "Delete user by ID",
         "parameters": [
@@ -172,7 +172,7 @@
         }
       }
     },
-    "/api/v1/create/note": {
+    "/api/v1/note/create": {
       "post": {
         "summary": "Create a new note",
         "requestBody": {
@@ -205,7 +205,7 @@
         }
       }
     },
-    "/api/v1/get/notes": {
+    "/api/v1/note/get/all": {
       "get": {
         "summary": "Get all notes",
         "responses": {
@@ -225,7 +225,7 @@
         }
       }
     },
-    "/api/v1/get/note/{note_id}": {
+    "/api/v1/note/get/one/{note_id}": {
       "get": {
         "summary": "Get note by ID",
         "parameters": [
@@ -262,7 +262,7 @@
         }
       }
     },
-    "/api/v1/get/notes/{user_id}": {
+    "/api/v1/note/get/{user_id}": {
       "get": {
         "summary": "Get note by ID",
         "parameters": [
@@ -298,7 +298,7 @@
         }
       }
     },
-    "/api/v1/update/note/{note_id}/{user_id}": {
+    "/api/v1/note/update/{note_id}/{user_id}": {
       "put": {
         "summary": "Update note by ID",
         "parameters": [
@@ -349,7 +349,7 @@
         }
       }
     },
-    "/api/v1/delete/note/{note_id}/{user_id}": {
+    "/api/v1/note/delete/{note_id}/{user_id}": {
       "delete": {
         "summary": "Delete note by ID",
         "parameters": [
