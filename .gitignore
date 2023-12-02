@@ -1,3 +1,7 @@
 /venv
-/idea
+/.idea
 /data
+/migrations
+/.pytest_cache
+/instance
+

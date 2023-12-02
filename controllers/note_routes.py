@@ -1,10 +1,11 @@
 from flask import request, jsonify, Blueprint
-from datetime import datetime
-from ORM.note import Note
-from ORM.user import User
+from models.models import Note
+from models.models import User
 from decorator import get_note_and_user
+from database import db
+from schemas import NoteSchema
 
-
+note_schema = NoteSchema()
 blp = Blueprint("Note", __name__, url_prefix="/api/v1/note")
 
 
@@ -15,38 +16,40 @@ def create_note():
     text = data.get('text')
     user_id = data.get('user_id')
 
-    user = User.objects(id=user_id).first()
+    user = User.query.get(user_id)
     if not user:
-        return jsonify({"error": "User not found"}), 404
+        return jsonify({"message": "User not found"}), 404
 
-    note = Note(title=title, text=text, creation_date=datetime.utcnow(), user_id=user_id)
-    note.save()
-
+    note = Note(title=title, text=text, user_id=user_id)
+    db.session.add(note)
+    db.session.commit()
     return jsonify({"message": "Note created successfully", "note_id": str(note.id)}), 201
 
 
 @blp.route('get/all', methods=['GET'])
 def get_all_notes():
-    notes = Note.objects()
-    return jsonify({"notes": [note.to_json() for note in notes]}), 200
+    notes = Note.query.all()
+    result = note_schema.dump(notes, many=True)
+    return jsonify({"notes": result}), 200
 
 
 @blp.route('get/one/<note_id>', methods=['GET'])
 def get_node_by_id(note_id):
-    note = Note.objects(id=note_id).first()
-
+    note = Note.query.get(note_id)
     if not note:
-        return jsonify({"error": "Note not found"}), 404
+        return jsonify({"message": "Note not found"}), 404
+    result = note_schema.dump(note)
+    return jsonify({"note": result}), 200
 
-    return jsonify({"user": note.to_json()}), 200
 
 @blp.route('get/<user_id>', methods=['GET'])
 def get_all_notes_by_user_id(user_id):
-    user = User.objects(id=user_id).first()
+    user = User.query.get(user_id)
     if not user:
-        return jsonify({"error": "User not found"}), 404
-    notes = Note.objects(user_id=user)
-    return jsonify({"users": [note.to_json() for note in notes]}), 200
+        return jsonify({"message": "User not found"}), 404
+    notes = Note.query.filter_by(user_id=user_id).all()
+    result = note_schema.dump(notes, many=True)
+    return jsonify({"notes by user": result}), 200
 
 
 @blp.route('update/<note_id>/<user_id>', methods=['PUT'])
@@ -58,7 +61,7 @@ def update_note(note, user):
 
     note.title = new_title
     note.text = new_text
-    note.save()
+    db.session.commit()
 
     return jsonify({"message": "Note updated successfully"}), 200
 
@@ -66,5 +69,6 @@ def update_note(note, user):
 @blp.route('delete/<note_id>/<user_id>', methods=['DELETE'])
 @get_note_and_user()
 def delete_note(note, user):
-    note.delete()
+    db.session.delete(note)
+    db.session.commit()
     return jsonify({"message": "Note deleted successfully"}), 200
