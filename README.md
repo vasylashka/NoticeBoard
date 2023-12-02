@@ -15,7 +15,8 @@ The NoticeBoard project is a simple web application built with Flask, serving as
 Before you begin, ensure you have met the following requirements:
 
 - Python installed (version 3.10)
-- Venv is installed 
+- Venv is installed
+- SQLite is installed
 
 ## Setup
 
@@ -43,14 +44,15 @@ Before you begin, ensure you have met the following requirements:
 ``` 
 6. Initialize the project using pipenv:
 ```bash
-   pipenv install --python 3.10
-```   
+   pipenv install 
+``` 
+
 
 ## How to Run
 
 To run the project, follow these steps:
 
-# Run the Flask application
+## Run the Flask application
 ```bash
    python app.py
 ```
