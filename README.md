@@ -54,7 +54,17 @@ Before you begin, ensure you have met the following requirements:
 
 To run the project, follow these steps:
 
-# Run the Flask application
+## Docker
+
+If you are going to use docker for the database firstly run:
+```bash
+    docker-compose build
+```
+Than:
+```bash
+    docker-compose up
+```
+## Run the Flask application
 ```bash
    python app.py
 ```
