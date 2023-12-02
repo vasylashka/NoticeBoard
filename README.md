@@ -44,8 +44,9 @@ Before you begin, ensure you have met the following requirements:
 ``` 
 6. Initialize the project using pipenv:
 ```bash
-   pipenv install --python 3.10
+   pipenv install 
 ``` 
+
 
 ## How to Run
 

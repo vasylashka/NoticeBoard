@@ -39,6 +39,7 @@
         }
       }
     },
+
     "/api/v1/user/get/all": {
       "get": {
         "summary": "Get all users",
@@ -141,6 +142,7 @@
         }
       }
     },
+
     "/api/v1/user/delete/{user_id}": {
       "delete": {
         "summary": "Delete user by ID",
