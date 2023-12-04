@@ -1,4 +1,3 @@
-
 from database import db
 from datetime import datetime
 
@@ -18,6 +17,7 @@ class Note(db.Model):
         self.title = title
         self.text = text
         self.user_id = user_id
+
 
 class User(db.Model):
     __tablename__ = 'users'

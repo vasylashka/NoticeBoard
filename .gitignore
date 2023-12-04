@@ -1,7 +1,6 @@
 /venv
 /.idea
 /data
-/migrations
 /.pytest_cache
 /instance
 
