@@ -1,7 +1,7 @@
 from functools import wraps
 from flask import jsonify
 
-from models.models import Note, User
+from models import Note, User
 
 
 
@@ -14,7 +14,6 @@ def get_note_and_user(note_id_param='note_id', user_id_param='user_id'):
 
             note = Note.query.get(note_id)
             user = User.query.get(user_id)
-
 
             if not user:
                 return jsonify({"error": "User not found"}), 404

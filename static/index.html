@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask API Interaction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        button {
+            padding: 10px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        #allNotesResult {
+            white-space: pre-line;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Notes</h1>
+
+<!-- Create User Form -->
+<form id="createUserForm">
+    <h2>Create User</h2>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+    <br>
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required>
+    <br>
+    <button type="button" onclick="createUser()">Create User</button>
+</form>
+
+<!-- Get User ID Form -->
+<form id="getUserIDForm">
+    <h2>Get User ID</h2>
+    <label for="getUserIDEmail">User Email:</label>
+    <input type="email" id="getUserIDEmail" name="getUserIDEmail" required>
+    <br>
+    <button type="button" onclick="getUserID()">Get User ID</button>
+</form>
+
+<!-- Create Note Form -->
+<form id="createNoteForm">
+    <h2>Create Note</h2>
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title" required>
+    <br>
+    <label for="text">Text:</label>
+    <textarea id="text" name="text" required></textarea>
+    <br>
+    <label for="userId">User ID:</label>
+    <input type="text" id="userId" name="userId" required>
+    <br>
+    <button type="button" onclick="createNote()">Create Note</button>
+</form>
+
+<!-- Get All Notes Form -->
+<form id="getAllNotesForm">
+    <h2>Get All Notes by User ID</h2>
+    <label for="getAllNotesUserId">User ID:</label>
+    <input type="text" id="getAllNotesUserId" name="getAllNotesUserId" required>
+    <br>
+    <button type="button" onclick="getAllNotes()">Get All Notes</button>
+</form>
+
+<div id="allNotesResult"></div>
+
+
+<script>
+    // Helper function to make AJAX requests
+    function makeRequest(method, url, data, callback) {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                callback(xhr.status, JSON.parse(xhr.responseText));
+            }
+        };
+        xhr.open(method, url, true);
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhr.send(JSON.stringify(data));
+    }
+
+    // Function to create a new user
+    function createUser() {
+        var email = document.getElementById("email").value;
+        var username = document.getElementById("username").value;
+
+        var data = {
+            email: email,
+            username: username,
+        };
+
+        makeRequest('POST', '/api/v1/users/create', data, function (status, response) {
+            alert(response.message);
+        });
+    }
+
+    // Function to get user ID
+    function getUserID() {
+        var email = document.getElementById("getUserIDEmail").value;
+
+        makeRequest('GET', '/api/v1/users', null, function (status, response) {
+            var user = response.users.find(function (user) {
+                return user.email === email;
+            });
+
+            if (user) {
+                alert('User ID: ' + user.id);
+            } else {
+                alert('User not found');
+            }
+        });
+    }
+
+    // Function to create a new note
+    function createNote() {
+        var title = document.getElementById("title").value;
+        var text = document.getElementById("text").value;
+        var userId = document.getElementById("userId").value;
+
+        var data = {
+            title: title,
+            text: text,
+            user_id: userId
+        };
+
+        makeRequest('POST', '/api/v1/notes/create', data, function (status, response) {
+            alert(response.message);
+        });
+    }
+    function getAllNotes() {
+    var userId = document.getElementById("getAllNotesUserId").value;
+    makeRequest('GET', `/api/v1/users/${userId}/notes`, null, function (status, response) {
+        if (status === 200) {
+            var resultDiv = document.getElementById("allNotesResult");
+            resultDiv.innerHTML = JSON.stringify(response, null, 2);
+        } else {
+            alert('Error: ' + response.error);
+        }
+    });
+}
+    function displayAllNotes(notes) {
+        var resultDiv = document.getElementById("allNotesResult");
+        resultDiv.innerHTML = "<h2>All Notes by User:</h2>";
+
+        if (notes.length === 0) {
+            resultDiv.innerHTML += "<p>No notes found for this user.</p>";
+        } else {
+            for (var i = 0; i < notes.length; i++) {
+                resultDiv.innerHTML += "<strong>Title:</strong> " + notes[i].title + "<br>";
+                resultDiv.innerHTML += "<strong>Text:</strong> " + notes[i].text + "<br><br>";
+            }
+        }
+    }
+
+</script>
+
+</body>
+</html>

@@ -7,7 +7,7 @@
     "version": "2.0.0"
   },
   "paths": {
-    "/api/v1/user/create": {
+    "/api/v1/users/create": {
       "post": {
         "summary": "Create a new user",
         "requestBody": {
@@ -40,7 +40,7 @@
       }
     },
 
-    "/api/v1/user/get/all": {
+    "/api/v1/users": {
       "get": {
         "summary": "Get all users",
         "responses": {
@@ -60,7 +60,7 @@
         }
       }
     },
-    "/api/v1/user/get/{user_id}": {
+    "/api/v1/users/{user_id}": {
       "get": {
         "summary": "Get user by ID",
         "parameters": [
@@ -95,9 +95,7 @@
             }
           }
         }
-      }
-    },
-    "/api/v1/user/update/{user_id}": {
+      },
       "put": {
         "summary": "Update user by ID",
         "parameters": [
@@ -140,10 +138,7 @@
             }
           }
         }
-      }
-    },
-
-    "/api/v1/user/delete/{user_id}": {
+      },
       "delete": {
         "summary": "Delete user by ID",
         "parameters": [
@@ -174,7 +169,43 @@
         }
       }
     },
-    "/api/v1/note/create": {
+    "/api/v1/users/{user_id}/notes": {
+      "get": {
+        "summary": "Get note by ID",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Notes retrieved successfully",
+            "content": {
+              "application/json": {
+                "example": {
+                  "notes": [
+                    { "note_id": "456", "title": "Note 1", "text": "This is the content of Note 1" },
+                    { "note_id": "457", "title": "Note 2", "text": "This is the content of Note 2" }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Note not found",
+            "content": {
+              "application/json": {
+                "example": { "error": "Note not found" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/notes/create": {
       "post": {
         "summary": "Create a new note",
         "requestBody": {
@@ -207,7 +238,7 @@
         }
       }
     },
-    "/api/v1/note/get/all": {
+    "/api/v1/notes": {
       "get": {
         "summary": "Get all notes",
         "responses": {
@@ -227,7 +258,7 @@
         }
       }
     },
-    "/api/v1/note/get/one/{note_id}": {
+    "/api/v1/notes/{note_id}": {
       "get": {
         "summary": "Get note by ID",
         "parameters": [
@@ -264,10 +295,16 @@
         }
       }
     },
-    "/api/v1/note/get/{user_id}": {
-      "get": {
-        "summary": "Get note by ID",
+    "/api/v1/notes/{note_id}/{user_id}": {
+      "delete": {
+        "summary": "Delete note by ID",
         "parameters": [
+          {
+            "name": "note_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          },
           {
             "name": "user_id",
             "in": "path",
@@ -277,15 +314,10 @@
         ],
         "responses": {
           "200": {
-            "description": "Notes retrieved successfully",
+            "description": "Note deleted successfully",
             "content": {
               "application/json": {
-                "example": {
-                  "notes": [
-                    { "note_id": "456", "title": "Note 1", "text": "This is the content of Note 1" },
-                    { "note_id": "457", "title": "Note 2", "text": "This is the content of Note 2" }
-                  ]
-                }
+                "example": { "message": "Note deleted successfully" }
               }
             }
           },
@@ -298,9 +330,7 @@
             }
           }
         }
-      }
-    },
-    "/api/v1/note/update/{note_id}/{user_id}": {
+      },
       "put": {
         "summary": "Update note by ID",
         "parameters": [
@@ -337,43 +367,6 @@
             "content": {
               "application/json": {
                 "example": { "message": "Note updated successfully" }
-              }
-            }
-          },
-          "404": {
-            "description": "Note not found",
-            "content": {
-              "application/json": {
-                "example": { "error": "Note not found" }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/note/delete/{note_id}/{user_id}": {
-      "delete": {
-        "summary": "Delete note by ID",
-        "parameters": [
-          {
-            "name": "note_id",
-            "in": "path",
-            "required": true,
-            "schema": { "type": "string" }
-          },
-          {
-            "name": "user_id",
-            "in": "path",
-            "required": true,
-            "schema": { "type": "string" }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Note deleted successfully",
-            "content": {
-              "application/json": {
-                "example": { "message": "Note deleted successfully" }
               }
             }
           },
